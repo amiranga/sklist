@@ -2,6 +2,8 @@
 
 <app-toast [message]="toast.message"></app-toast>
 
+<app-add-school-form *ngIf="!isEditing" [schools]="schools"></app-add-school-form>
+
 <div class="card mb-3" *ngIf="!isLoading">
   <h4 class="card-header">Current schools ({{schools.length}})</h4>
   <div class="card-body">
@@ -58,4 +60,4 @@
   </div>
 </div>
 
-<app-add-school-form *ngIf="!isEditing" [schools]="schools"></app-add-school-form>
+

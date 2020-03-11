@@ -2,7 +2,12 @@ import * as mongoose from 'mongoose';
 
 const schoolSchema = new mongoose.Schema({
   name: String,
-  address: String,
+  address: {
+    street: String,
+    suburb: String,
+    postcode: String,
+    state: String
+  },
   numberOfStudents: Number
 });
 

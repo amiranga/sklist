@@ -15,23 +15,29 @@ export class AddSchoolFormComponent implements OnInit {
 
   addSchoolForm: FormGroup;
   name = new FormControl('', Validators.required);
-  address = new FormControl('', Validators.required);
+  address_1 = new FormControl('', Validators.required);
+  address_2 = new FormControl('', Validators.required);
+  address_3 = new FormControl('', Validators.required);
+  address_4 = new FormControl('', Validators.required);
   numberOfStudents = new FormControl('', Validators.required);
 
   constructor(private schoolService: SchoolService,
-              private formBuilder: FormBuilder,
-              public toast: ToastComponent) { }
+    private formBuilder: FormBuilder,
+    public toast: ToastComponent) { }
 
   ngOnInit(): void {
     this.addSchoolForm = this.formBuilder.group({
       name: this.name,
-      address: this.address,
+      address_1: this.address_1,
+      address_2: this.address_2,
+      address_3: this.address_3,
+      address_4: this.address_4,
       numberOfStudents: this.numberOfStudents
     });
   }
 
   addSchool() {
-    this.schoolService.addSchool(this.addSchoolForm.value).subscribe(
+    this.schoolService.addSchool(this.formSerialize(this.addSchoolForm.value)).subscribe(
       res => {
         this.schools.push(res);
         this.addSchoolForm.reset();
@@ -39,6 +45,19 @@ export class AddSchoolFormComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  formSerialize(formData) {
+    return {
+      name: formData.name,
+      address: {
+        street: formData.address_1,
+        suburb: formData.address_2,
+        postcode: formData.address_3,
+        state: formData.address_4
+      },
+      numberOfStudents: formData.numberOfStudents
+    };
   }
 
 }
