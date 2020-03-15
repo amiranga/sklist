@@ -17,12 +17,6 @@ export class AddSchoolFormComponent implements OnInit {
   @Output() onCancel = new EventEmitter<boolean>();
 
   addSchoolForm: FormGroup;
-  name = new FormControl('', Validators.required);
-  address_1 = new FormControl('', Validators.required);
-  address_2 = new FormControl('', Validators.required);
-  address_3 = new FormControl('', Validators.required);
-  address_4 = new FormControl('', Validators.required);
-  numberOfStudents = new FormControl('', Validators.required);
 
   constructor(private schoolService: SchoolService,
     private formBuilder: FormBuilder,
@@ -30,12 +24,12 @@ export class AddSchoolFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.addSchoolForm = this.formBuilder.group({
-      name: this.name,
-      address_1: this.address_1,
-      address_2: this.address_2,
-      address_3: this.address_3,
-      address_4: this.address_4,
-      numberOfStudents: this.numberOfStudents
+      name: new FormControl('', Validators.required),
+      street: new FormControl('', Validators.required),
+      suburb: new FormControl('', Validators.required),
+      postcode: new FormControl('', Validators.required),
+      state: new FormControl('', Validators.required),
+      numberOfStudents: new FormControl('', Validators.required)
     });
   }
 
@@ -73,14 +67,16 @@ export class AddSchoolFormComponent implements OnInit {
     );
   }
 
+
+
   formSerialize(formData) {
     return {
       name: formData.name,
       address: {
-        street: formData.address_1,
-        suburb: formData.address_2,
-        postcode: formData.address_3,
-        state: formData.address_4
+        street: formData.street,
+        suburb: formData.suburb,
+        postcode: formData.postcode,
+        state: formData.state
       },
       numberOfStudents: formData.numberOfStudents
     };

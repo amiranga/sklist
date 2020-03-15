@@ -13,23 +13,23 @@
 
       <div class="form-row">
         <div class="form-group col-md-3">
-          <label for="address_1">Address</label>
-          <input class="form-control mr-2" type="text" name="address_1" formControlName="address_1" placeholder="street"
+          <label for="street">Address</label>
+          <input class="form-control mr-2" type="text" name="street" formControlName="street" placeholder="street"
             [(ngModel)]="school.address && school.address.street">
         </div>
         <div class="form-group col-md-3">
-          <label for="address_2">&nbsp;</label>
-          <input class="form-control mr-2" type="text" name="address_2" formControlName="address_2" placeholder="suburb"
+          <label for="suburb">&nbsp;</label>
+          <input class="form-control mr-2" type="text" name="suburb" formControlName="suburb" placeholder="suburb"
             [(ngModel)]="school.address && school.address.suburb">
         </div>
         <div class="form-group col-md-3">
-          <label for="address_3">&nbsp;</label>
-          <input class="form-control mr-2" type="text" name="address_3" formControlName="address_3"
+          <label for="postcode">&nbsp;</label>
+          <input class="form-control mr-2" type="text" name="postcode" formControlName="postcode"
             placeholder="postcode" [(ngModel)]="school.address && school.address.postcode">
         </div>
         <div class="form-group col-md-3">
-          <label for="address_4">&nbsp;</label>
-          <input class="form-control mr-2" type="text" name="address_4" formControlName="address_4" placeholder="state"
+          <label for="state">&nbsp;</label>
+          <input class="form-control mr-2" type="text" name="state" formControlName="state" placeholder="state"
             [(ngModel)]="school.address && school.address.state">
         </div>
       </div>
@@ -55,7 +55,6 @@
           </button>
         </div>
       </div>
-
 
     </form>
   </div>
