@@ -2,10 +2,27 @@
 
 <app-toast [message]="toast.message"></app-toast>
 
-<app-add-school-form *ngIf="!isEditing" [schools]="schools"></app-add-school-form>
-
-<div class="card mb-3" *ngIf="!isLoading">
-  <h4 class="card-header">Current schools ({{schools.length}})</h4>
+<div class="card mb-3" *ngIf="!(isAdding || isEditing)">
+  <div class="card-header container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <h4>schools ({{schools.length}})</h4>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search bu Name or Address" name="search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i> Search</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 mb-3">
+        <button class="btn btn-outline-secondary" (click)="enableAdding()">
+          <i class="fa fa-plus"></i> Add New
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="card-body">
     <table class="table table-bordered">
       <thead class="thead-light">
@@ -19,40 +36,22 @@
       <tbody *ngIf="schools.length === 0">
         <tr>
           <td colspan="4">There are no schools in the DB. Add a new school below.</td>
-        </tr>  
+        </tr>
       </tbody>
-      <tbody *ngIf="!isEditing">
+      <tbody>
         <tr *ngFor="let school of schools">
           <td>{{school.name}}</td>
-          <td>{{school.address}}</td>
+          <td>{{school.address.street}} ,{{school.address.suburb}} ,{{school.address.postcode}}
+            ,{{school.address.state}}
+          </td>
           <td>{{school.numberOfStudents}}</td>
           <td>
             <button class="btn btn-sm btn-primary" (click)="enableEditing(school)">
               <i class="fa fa-pencil"></i> Edit
-            </button> 
+            </button>
             <button class="btn btn-sm btn-danger ml-1" (click)="deleteSchool(school)">
               <i class="fa fa-trash"></i> Delete
             </button>
-          </td>
-        </tr>  
-      </tbody>
-      <tbody *ngIf="isEditing">
-        <tr>
-          <td colspan="4">
-            <form class="form-inline" #form="ngForm" (ngSubmit)="editSchool(school)">
-              <input class="form-control mr-2" type="text" name="name"
-                     [(ngModel)]="school.name" placeholder="Name" required>
-              <input class="form-control mr-2" type="text" name="address"
-                     [(ngModel)]="school.address" placeholder="address" required>
-              <input class="form-control mr-2" type="number" name="numberOfStudents"
-                     [(ngModel)]="school.numberOfStudents" placeholder="Number Of Students" step="any" min="0" required>
-              <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
-                <i class="fa fa-floppy-o"></i> Save
-              </button>
-              <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
-                <i class="fa fa-times"></i> Cancel
-              </button>
-            </form>
           </td>
         </tr>
       </tbody>
@@ -60,4 +59,5 @@
   </div>
 </div>
 
-
+<app-add-school-form *ngIf="isEditing || isAdding" [schools]="schools" [school]="school" [isEditing]="isEditing"
+  (onCancel)="cancelEditing()"></app-add-school-form>

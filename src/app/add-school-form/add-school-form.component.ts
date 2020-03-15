@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { SchoolService } from '../services/school.service';
 import { ToastComponent } from '../shared/toast/toast.component';
@@ -12,6 +12,9 @@ import { School } from '../shared/models/school.model';
 
 export class AddSchoolFormComponent implements OnInit {
   @Input() schools: School[];
+  @Input() school: School;
+  @Input() isEditing: boolean = false;
+  @Output() onCancel = new EventEmitter<boolean>();
 
   addSchoolForm: FormGroup;
   name = new FormControl('', Validators.required);
@@ -36,12 +39,35 @@ export class AddSchoolFormComponent implements OnInit {
     });
   }
 
-  addSchool() {
-    this.schoolService.addSchool(this.formSerialize(this.addSchoolForm.value)).subscribe(
-      res => {
-        this.schools.push(res);
-        this.addSchoolForm.reset();
-        this.toast.setMessage('school added successfully.', 'success');
+  addSchool(school: School) {
+    if (this.isEditing && school) {
+      this.editSchool(school);      
+    } else {
+      console.log("form val", this.addSchoolForm.value);
+      this.schoolService.addSchool(this.formSerialize(this.addSchoolForm.value)).subscribe(
+        res => {
+          this.schools.push(res);
+          this.addSchoolForm.reset();
+          this.toast.setMessage('school added successfully.', 'success');
+          this.backToGrid();
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  backToGrid() {
+    this.isEditing = false;
+    this.school = new School();
+    this.onCancel.emit(true);
+  }
+
+  editSchool(school: School) {
+    this.schoolService.editSchool(school).subscribe(
+      () => {
+        this.school = school;
+        this.toast.setMessage('item edited successfully.', 'success');
+        this.backToGrid();
       },
       error => console.log(error)
     );

@@ -15,6 +15,7 @@ export class SchoolGridComponent implements OnInit {
   schools: School[] = [];
   isLoading = true;
   isEditing = false;
+  isAdding = false;
 
   constructor(private schoolService: SchoolService,
               public toast: ToastComponent) { }
@@ -36,25 +37,17 @@ export class SchoolGridComponent implements OnInit {
     this.school = school;
   }
 
+  enableAdding() {
+    this.isAdding = true;
+  }
+
   cancelEditing() {
     this.isEditing = false;
+    this.isAdding = false;
     this.school = new School();
-    this.toast.setMessage('item editing cancelled.', 'warning');
-    // reload the schools to reset the editing
     this.getSchools();
   }
-
-  editSchool(school: School) {
-    this.schoolService.editSchool(school).subscribe(
-      () => {
-        this.isEditing = false;
-        this.school = school;
-        this.toast.setMessage('item edited successfully.', 'success');
-      },
-      error => console.log(error)
-    );
-  }
-
+  
   deleteSchool(school: School) {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
       this.schoolService.deleteSchool(school).subscribe(
