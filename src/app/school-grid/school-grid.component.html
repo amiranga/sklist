@@ -2,35 +2,35 @@
 
 <app-toast [message]="toast.message"></app-toast>
 
-<div class="card mb-3" *ngIf="!(isAdding || isEditing)">
+<div class="card mb-4 mt-4" *ngIf="!(isAdding || isEditing)">
   <div class="card-header container-fluid">
     <div class="row">
       <div class="col-md-6">
-        <h4>schools ({{schools.length}})</h4>
+        <h4>SCHOOLS ({{schools.length}})</h4>
       </div>
       <div class="col-md-4">
-        <div class="input-group mb-3">
+        <div class="input-group">
           <input type="text" class="form-control" placeholder="Search bu Name or Address" name="search">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i> Search</button>
           </div>
         </div>
       </div>
-      <div class="col-md-2 mb-3">
+      <div class="col-md-2">
         <button class="btn btn-outline-secondary" (click)="enableAdding()">
           <i class="fa fa-plus"></i> Add New
         </button>
       </div>
     </div>
   </div>
-  <div class="card-body">
+  <div class="card-body school-list">
     <table class="table table-bordered">
       <thead class="thead-light">
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Address</th>
           <th scope="col">Number Of Students</th>
-          <th scope="col">Actions</th>
+          <th scope="col" class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody *ngIf="schools.length === 0">
@@ -45,11 +45,11 @@
             ,{{school.address.state}}
           </td>
           <td>{{school.numberOfStudents}}</td>
-          <td>
-            <button class="btn btn-sm btn-primary" (click)="enableEditing(school)">
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-primary" (click)="enableEditing(school)">
               <i class="fa fa-pencil"></i> Edit
             </button>
-            <button class="btn btn-sm btn-danger ml-1" (click)="deleteSchool(school)">
+            <button class="btn btn-sm btn-outline-danger ml-1" (click)="deleteSchool(school)">
               <i class="fa fa-trash"></i> Delete
             </button>
           </td>
