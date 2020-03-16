@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 // Modules
 import { SharedModule } from './shared/shared.module';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // Services
 import { SchoolService } from './services/school.service';
 

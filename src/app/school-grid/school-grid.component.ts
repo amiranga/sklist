@@ -36,7 +36,7 @@ export class SchoolGridComponent implements OnInit {
 
   filterSchools() {
     var keyword = this.filter;
-    console.log("keyword",keyword);
+    console.log("keyword", keyword);
     if (keyword && keyword.trim().length) {
       this.schools = this.schools.filter(school =>
         school.name.includes(keyword) ||
