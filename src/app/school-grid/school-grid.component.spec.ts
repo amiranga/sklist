@@ -54,7 +54,7 @@ describe('Component: Schools', () => {
     const headerEl = fixture.debugElement.query(By.css('h4')).nativeElement;
     expect(headerEl.textContent).toContain('Current schools (0)');
     const tdEl = fixture.debugElement.query(By.css('td')).nativeElement;
-    expect(tdEl.textContent).toContain('There are no schools in the DB. Add a new school below.');
+    expect(tdEl.textContent).toContain('No data found. Click "Add New" to insert school');
   });
 
   it('should display current schools', () => {

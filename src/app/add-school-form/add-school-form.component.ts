@@ -82,7 +82,6 @@ export class AddSchoolFormComponent {
   editSchool(school: School) {
     this.schoolService.editSchool(school).subscribe(
       () => {
-        this.school = school;
         this.toast.setMessage('school edited successfully.', 'success');
         this.closeModal();
       },
@@ -114,12 +113,13 @@ export class AddSchoolFormComponent {
   }
 
   openModal(content) {
-    this.modalService.open(content, { keyboard: false, backdrop: "static" });
+    this.modalService.open(content, { keyboard: false, backdrop: "static", size: "lg" });
   }
 
   closeModal() {
     this.isEditing = false;
     this.school = new School();
+    this.addSchoolForm.reset();
     this.modalService.dismissAll();
     this.onCancel.emit(true);
   }
