@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { SchoolService } from '../services/school.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { School } from '../shared/models/school.model';
+import { scheduled } from 'rxjs';
 
 @Component({
   selector: 'app-school-grid',
@@ -13,12 +14,13 @@ export class SchoolGridComponent implements OnInit {
 
   school = new School();
   schools: School[] = [];
-  isLoading = true;
-  isEditing = false;
-  isAdding = false;
+  isLoading: boolean = true;
+  isEditing: boolean = false;
+  isAdding: boolean = false;
+  filter: string;
 
   constructor(private schoolService: SchoolService,
-              public toast: ToastComponent) { }
+    public toast: ToastComponent) { }
 
   ngOnInit() {
     this.getSchools();
@@ -30,6 +32,21 @@ export class SchoolGridComponent implements OnInit {
       error => console.log(error),
       () => this.isLoading = false
     );
+  }
+
+  filterSchools() {
+    var keyword = this.filter;
+    console.log("keyword",keyword);
+    if (keyword && keyword.trim().length) {
+      this.schools = this.schools.filter(school =>
+        school.name.includes(keyword) ||
+        school.address.state.includes(keyword) ||
+        school.address.street.includes(keyword) ||
+        school.address.suburb.includes(keyword)
+      );
+    } else {
+      this.getSchools();
+    }
   }
 
   enableEditing(school: School) {
@@ -45,9 +62,10 @@ export class SchoolGridComponent implements OnInit {
     this.isEditing = false;
     this.isAdding = false;
     this.school = new School();
+    this.filter = "";
     this.getSchools();
   }
-  
+
   deleteSchool(school: School) {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
       this.schoolService.deleteSchool(school).subscribe(
