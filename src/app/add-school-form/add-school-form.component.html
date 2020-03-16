@@ -1,6 +1,8 @@
-<div class="card">
-  <h4 class="card-header">Add new school</h4>
-  <div class="card-body">
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add new school</h4>
+  </div>
+  <div class="modal-body">
     <form [formGroup]="addSchoolForm" (ngSubmit)="addSchool(school)">
 
       <div class="form-row">
@@ -30,7 +32,6 @@
         </div>
       </div>
 
-
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="numberOfStudents">Number Of Students</label>
@@ -40,13 +41,13 @@
       </div>
 
       <div class="form-row">
-        <div class="form-group col-md-10">
+        <div class="form-group col-md-9">
           <button class="btn btn-primary" type="submit" [disabled]="!addSchoolForm.valid">
             <i class="fa fa-plus"></i> Add
           </button>
         </div>
-        <div class="form-group col-md-2">
-          <button class="btn btn-warning float-right" (click)="backToGrid()">
+        <div class="form-group col-md-3">
+          <button class="btn btn-warning float-right" (click)="closeModal()">
             <i class="fa fa-times"></i> Cancel
           </button>
         </div>
@@ -54,4 +55,4 @@
 
     </form>
   </div>
-</div>
+</ng-template>

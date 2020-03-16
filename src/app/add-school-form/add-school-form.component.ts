@@ -1,5 +1,7 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { SchoolService } from '../services/school.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { School } from '../shared/models/school.model';
@@ -10,81 +12,85 @@ import { School } from '../shared/models/school.model';
   styleUrls: ['./add-school-form.component.scss']
 })
 
-export class AddSchoolFormComponent{
+export class AddSchoolFormComponent {
   @Input() schools: School[];
 
   private _school;
-
-  // use getter setter to define the property
   get school(): any {
     return this._school;
   }
-
   @Input()
   set school(val: any) {
-    console.log('previous school = ', this._school);
-    console.log('currently selected item=', val);
-    console.log("isEditing",this.isEditing);
     if (val && this.isEditing) {
       var newFormData = this.formDeSerialize(val);
-      console.log("patching",newFormData);
       this.addSchoolForm.patchValue(newFormData)
     }
     this._school = val;
   }
 
   @Input() isEditing: boolean;
+
+  private _showModal;
+  get showModal(): boolean {
+    return this._showModal;
+  }
+  @Input()
+  set showModal(val: boolean) {
+    if (val) {
+      this.openModal(this.modalContent);
+      this._showModal = val;
+    }
+  }
+
+  @ViewChild("content") modalContent: TemplateRef<any>;
+
   @Output() onCancel = new EventEmitter<boolean>();
 
   addSchoolForm: FormGroup = this.formBuilder.group({
-      name: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      suburb: new FormControl('', Validators.required),
-      postcode: new FormControl('', Validators.required),
-      state: new FormControl('', Validators.required),
-      numberOfStudents: new FormControl('', Validators.required)
+    name: new FormControl('', Validators.required),
+    street: new FormControl('', Validators.required),
+    suburb: new FormControl('', Validators.required),
+    postcode: new FormControl('', Validators.required),
+    state: new FormControl('', Validators.required),
+    numberOfStudents: new FormControl('', Validators.required)
   });
 
   constructor(private schoolService: SchoolService,
     private formBuilder: FormBuilder,
-    public toast: ToastComponent) { }
+    public toast: ToastComponent,
+    private modalService: NgbModal) { }
 
 
   addSchool(school: School) {
     if (this.isEditing && school) {
-      this.editSchool(school);
+      var updated = this.formSerialize(this.addSchoolForm.value);
+      updated._id = school._id;
+      this.editSchool(updated);
     } else {
-      console.log("form val", this.addSchoolForm.value);
       this.schoolService.addSchool(this.formSerialize(this.addSchoolForm.value)).subscribe(
         res => {
           this.schools.push(res);
           this.addSchoolForm.reset();
           this.toast.setMessage('school added successfully.', 'success');
-          this.backToGrid();
+          this.closeModal();
         },
         error => console.log(error)
       );
     }
   }
 
-  backToGrid() {
-    this.isEditing = false;
-    this.school = new School();
-    this.onCancel.emit(true);
-  }
-
   editSchool(school: School) {
     this.schoolService.editSchool(school).subscribe(
       () => {
         this.school = school;
-        this.toast.setMessage('item edited successfully.', 'success');
-        this.backToGrid();
+        this.toast.setMessage('school edited successfully.', 'success');
+        this.closeModal();
       },
       error => console.log(error)
     );
   }
 
-  formSerialize(formData) {
+  formSerialize(formData): School {
     return {
       name: formData.name,
       address: {
@@ -96,7 +102,7 @@ export class AddSchoolFormComponent{
       numberOfStudents: formData.numberOfStudents
     };
   }
-  formDeSerialize(school) {
+  formDeSerialize(school: School) {
     return {
       name: school.name,
       street: school.address.street,
@@ -106,4 +112,16 @@ export class AddSchoolFormComponent{
       numberOfStudents: school.numberOfStudents
     };
   }
+
+  openModal(content) {
+    this.modalService.open(content, { keyboard: false, backdrop: "static" });
+  }
+
+  closeModal() {
+    this.isEditing = false;
+    this.school = new School();
+    this.modalService.dismissAll();
+    this.onCancel.emit(true);
+  }
+
 }
