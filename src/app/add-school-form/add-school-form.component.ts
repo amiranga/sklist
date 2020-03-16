@@ -10,32 +10,49 @@ import { School } from '../shared/models/school.model';
   styleUrls: ['./add-school-form.component.scss']
 })
 
-export class AddSchoolFormComponent implements OnInit {
+export class AddSchoolFormComponent{
   @Input() schools: School[];
-  @Input() school: School;
-  @Input() isEditing: boolean = false;
+
+  private _school;
+
+  // use getter setter to define the property
+  get school(): any {
+    return this._school;
+  }
+
+  @Input()
+  set school(val: any) {
+    console.log('previous school = ', this._school);
+    console.log('currently selected item=', val);
+    console.log("isEditing",this.isEditing);
+    if (val && this.isEditing) {
+      var newFormData = this.formDeSerialize(val);
+      console.log("patching",newFormData);
+      this.addSchoolForm.patchValue(newFormData)
+    }
+    this._school = val;
+  }
+
+  @Input() isEditing: boolean;
   @Output() onCancel = new EventEmitter<boolean>();
 
-  addSchoolForm: FormGroup;
-
-  constructor(private schoolService: SchoolService,
-    private formBuilder: FormBuilder,
-    public toast: ToastComponent) { }
-
-  ngOnInit(): void {
-    this.addSchoolForm = this.formBuilder.group({
+  addSchoolForm: FormGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       street: new FormControl('', Validators.required),
       suburb: new FormControl('', Validators.required),
       postcode: new FormControl('', Validators.required),
       state: new FormControl('', Validators.required),
       numberOfStudents: new FormControl('', Validators.required)
-    });
-  }
+  });
+
+  constructor(private schoolService: SchoolService,
+    private formBuilder: FormBuilder,
+    public toast: ToastComponent) { }
+
 
   addSchool(school: School) {
     if (this.isEditing && school) {
-      this.editSchool(school);      
+      this.editSchool(school);
     } else {
       console.log("form val", this.addSchoolForm.value);
       this.schoolService.addSchool(this.formSerialize(this.addSchoolForm.value)).subscribe(
@@ -67,8 +84,6 @@ export class AddSchoolFormComponent implements OnInit {
     );
   }
 
-
-
   formSerialize(formData) {
     return {
       name: formData.name,
@@ -81,5 +96,14 @@ export class AddSchoolFormComponent implements OnInit {
       numberOfStudents: formData.numberOfStudents
     };
   }
-
+  formDeSerialize(school) {
+    return {
+      name: school.name,
+      street: school.address.street,
+      suburb: school.address.suburb,
+      postcode: school.address.postcode,
+      state: school.address.state,
+      numberOfStudents: school.numberOfStudents
+    };
+  }
 }

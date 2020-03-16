@@ -6,31 +6,27 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="name">Name</label>
-          <input class="form-control mr-2" type="text" name="name" formControlName="name" placeholder="Name"
-            [(ngModel)]="school.name">
+          <input class="form-control mr-2" type="text" name="name" formControlName="name" placeholder="Name">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-3">
           <label for="street">Address</label>
-          <input class="form-control mr-2" type="text" name="street" formControlName="street" placeholder="street"
-            [(ngModel)]="school.address && school.address.street">
+          <input class="form-control mr-2" type="text" name="street" formControlName="street" placeholder="street">
         </div>
         <div class="form-group col-md-3">
           <label for="suburb">&nbsp;</label>
-          <input class="form-control mr-2" type="text" name="suburb" formControlName="suburb" placeholder="suburb"
-            [(ngModel)]="school.address && school.address.suburb">
+          <input class="form-control mr-2" type="text" name="suburb" formControlName="suburb" placeholder="suburb">
         </div>
         <div class="form-group col-md-3">
           <label for="postcode">&nbsp;</label>
           <input class="form-control mr-2" type="text" name="postcode" formControlName="postcode"
-            placeholder="postcode" [(ngModel)]="school.address && school.address.postcode">
+            placeholder="postcode">
         </div>
         <div class="form-group col-md-3">
           <label for="state">&nbsp;</label>
-          <input class="form-control mr-2" type="text" name="state" formControlName="state" placeholder="state"
-            [(ngModel)]="school.address && school.address.state">
+          <input class="form-control mr-2" type="text" name="state" formControlName="state" placeholder="state">
         </div>
       </div>
 
@@ -39,7 +35,7 @@
         <div class="form-group col-md-6">
           <label for="numberOfStudents">Number Of Students</label>
           <input class="form-control mr-2" type="number" name="numberOfStudents" formControlName="numberOfStudents"
-            placeholder="Number Of Students" step="any" min="0" [(ngModel)]="school.numberOfStudents">
+            placeholder="Number Of Students" step="any" min="0">
         </div>
       </div>
 

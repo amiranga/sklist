@@ -59,5 +59,5 @@
   </div>
 </div>
 
-<app-add-school-form *ngIf="isEditing || isAdding" [schools]="schools" [school]="school" [isEditing]="isEditing"
+<app-add-school-form *ngIf="isEditing || isAdding" [isEditing]="isEditing" [schools]="schools" [school]="school"
   (onCancel)="cancelEditing()"></app-add-school-form>
