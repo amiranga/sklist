@@ -43,9 +43,8 @@
       <tbody>
         <tr *ngFor="let school of schools">
           <td>{{school.name}}</td>
-          <td>{{school.address.street}} ,{{school.address.suburb}} ,{{school.address.postcode}}
-            ,{{school.address.state}}
-          </td>
+          <td>{{school.address.street}}, {{school.address.suburb}}, {{school.address.postcode}},
+            {{school.address.state}}</td>
           <td>{{school.numberOfStudents}}</td>
           <td class="text-center">
             <button class="btn btn-sm btn-outline-primary" (click)="enableEditing(school)">
