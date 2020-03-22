@@ -7,6 +7,9 @@ var app = express();
 const router = express.Router();
 dotenv.config();
 
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
 async function main() {
   try {
     let mongodbURI = process.env.MONGODB_REMOTE_URI || "mongodb://localhost:27017/sklist";
