@@ -9,7 +9,7 @@ dotenv.config();
 
 async function main() {
   try {
-    let mongodbURI = process.env.MONGODB_URI || "mongodb://localhost:27017/sklist";
+    let mongodbURI = process.env.MONGODB_REMOTE_URI || "mongodb://localhost:27017/sklist";
     mongoose.Promise = global.Promise;
     mongoose.set('useCreateIndex', true);
     mongoose.set('useNewUrlParser', true);
