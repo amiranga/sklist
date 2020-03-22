@@ -3,17 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "ng build --prod",
-    "start": "node dist/server/app.js",
-    "predev": "tsc -p server",
-    "dev": "concurrently \"mongod\" \"ng serve --proxy-config proxy.conf.json --open\" \"tsc -w -p server\" \"nodemon dist/server/app.js\"",
-    "prod": "concurrently \"mongod\" \"ng build --aot --prod && tsc -p server && node dist/server/app.js\"",
+    "build": "ng build",
+    "postinstall": "ng build --output-path dist",
+    "start": "node server.js",
+    "dev": "concurrently \"mongod\" \"ng serve --proxy-config proxy.conf.json --open\" \"nodemon server.js\"",
+    "prod": "concurrently \"mongod\" \"ng build --aot --prod && node server.js\"",
     "test": "ng test",
-    "testbe": "tsc -p server && mocha dist/server/test --exit",
     "lint": "ng lint",
     "linthtml": "htmlhint \"client/**/*.html\"",
     "lintscss": "sass-lint \"client/**/*.scss\" -v",
-    "lintbe": "tslint server/**/**.ts{,x}",
     "e2e": "ng e2e"
   },
   "dependencies": {
