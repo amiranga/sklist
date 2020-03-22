@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "ng build --prod",
+    "build": "ng build",
+    "postinstall": "ng build --output-path dist",
     "start": "node server.js",
     "dev": "concurrently \"mongod\" \"ng serve --proxy-config proxy.conf.json --open\" \"nodemon server.js\"",
     "prod": "concurrently \"mongod\" \"ng build --aot --prod && node server.js\"",
